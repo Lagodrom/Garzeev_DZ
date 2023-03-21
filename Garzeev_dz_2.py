@@ -2,6 +2,7 @@ import numpy as np
 import pygame
 import  random
 matrix_len=10-1
+robot_cor=[0,0]
 def airlocks_definition (airlocks_count,mask):
     #Todone:функция для генерации воздушных шлюзов на карте
     """
@@ -11,6 +12,7 @@ def airlocks_definition (airlocks_count,mask):
     :return: отрисовывает на карте местоположение робота (1) и местоположение выхода с корабля (4)
     """
     global matrix_len
+    global robot_cor
     for i in range (airlocks_count):
         variant = random.randint(1, 4)  # определение на каком из краев карты будет находуться шлюз
         # 1- левый край карты; 2 - верхний край карты; 3 - правый край карты; 4 - нижний край карты
@@ -20,6 +22,7 @@ def airlocks_definition (airlocks_count,mask):
                 x = random.randint(0, matrix_len)
             if (i==1):
                 mask[x][0]=1
+                robot_cor=mask[x][0]
             else:
                 mask[x][0]=4
         elif (variant==2):
@@ -28,6 +31,7 @@ def airlocks_definition (airlocks_count,mask):
                 y = random.randint(0, matrix_len)
             if (i==1):
                 mask[0][y]=1
+                robot_cor = mask[0][y]
             else:
                 mask[0][y]=4
         elif (variant==3):
@@ -36,6 +40,7 @@ def airlocks_definition (airlocks_count,mask):
                 x = random.randint(0, matrix_len)
             if (i==1):
                 mask[x][matrix_len]=1
+                robot_cor = mask[x][matrix_len]
             else:
                 mask[x][matrix_len]=4
         elif (variant==4):
@@ -44,6 +49,7 @@ def airlocks_definition (airlocks_count,mask):
                 y = random.randint(0, matrix_len)
             if (i==1):
                 mask[matrix_len][y]=1
+                robot_cor = mask[matrix_len][y]
             else:
                 mask[matrix_len][y]=4
 def goal_definition (goal_count,mask):
