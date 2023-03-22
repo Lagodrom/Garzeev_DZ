@@ -81,6 +81,57 @@ def wall_generation (wall_count,mask):
             x = random.randint(0, matrix_len)
             y = random.randint(0, matrix_len)
         mask[x][y] = 2
+def say_object(x,y,mask):
+    global matrix_len
+    # 1 - робот.
+    # 2 - стена.
+    # 3 - объекты     за     которыми     едет     робот
+    # 4 - зона     эвакуцию
+    result = ""
+    if x > matrix_len-1 or x < 0:
+        result = "край вселенной"
+    elif y > matrix_len-1 or y < 0:
+        result = "край вселенной"
+    elif mask[x,y] == 0:
+        result = "Пусто"
+    elif mask[x,y] == 2:
+        result = "Стена"
+    elif mask[x,y] == 3:
+        result = "Добыча"
+    elif mask[x,y] == 4:
+        result = "Выход"
+    else:
+        result = "НЛО!!"
+
+    return result
+def what_i_see(coords,mask):
+    global matrix_len
+    # print(coords) # [0, 9] x,y
+    for x in range(-1,2):
+        for y in range(-1,2):
+            # по сторонам света
+            # С-З | C   | C-В
+            # З   |робот| В
+            # Ю-З | Ю   | Ю-В
+            if x==0 and y==0: print("это я тут в центре стою")
+            if x==-1 and y==-1:
+                print("Ю-З вижу:",say_object(x,y))
+            if x==0 and y==-1:
+                print("Ю вижу:",say_object(x,y))
+            if x==1 and y==-1:
+                print("Ю-В вижу:",say_object(x,y))
+            if x==-1 and y==0:
+                print("З вижу:",say_object(x,y))
+            if x==1 and y==0:
+                print("В вижу:",say_object(x,y))
+            if x==-1 and y==1:
+                print("С-З вижу:",say_object(x,y))
+            if x==0 and y==1:
+                print("С вижу:",say_object(x,y))
+            if x==1 and y==1:
+                print("С-В вижу:",say_object(x,y))
+
+    return
 def robot_move (mask):
     global robot_cor
     global target_list
