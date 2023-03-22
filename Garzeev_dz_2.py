@@ -100,16 +100,43 @@ def robot_move (mask):
             if (otklonenie_chance!=9 and otklonenie_chance!=10):
                 move=[int((robot_cor[0]+vector_move[0])),int((robot_cor[1]+vector_move[1]))]
             elif (otklonenie_chance==9): #отклонение по x координте
-                otklonenie = -1
-                if ()
-                if (vector_move[0]+otklonenie>1 or vector_move[0]+otklonenie<-1):
-                    otklonenie=-1
-                move = [int((robot_cor[0] + vector_move[0]+otklonenie)), int((robot_cor[1] + vector_move[1]))]
-            elif (otklonenie_chance==10):
+                print("попал камушек под колесо. Отклонение влево")
                 otklonenie = 1
-                if (vector_move[0]+otklonenie>1 or vector_move[0]+otklonenie<-1):
-                    otklonenie= -1
-                move = [int((robot_cor[0] + vector_move[0]+ otklonenie)), int((robot_cor[1] + vector_move[1]))]
+                if (vector_move[0]==1 and vector_move[1]==1): #отклонение влево при движение [1,1]
+                    move = [int((robot_cor[0] + vector_move[0] - otklonenie)), int((robot_cor[1] + vector_move[1]))]
+                elif (vector_move[0]==1 and vector_move[1]==-1): #отклонение влево при движение [1,-1]
+                    move = [int((robot_cor[0] + vector_move[0])), int((robot_cor[1] + vector_move[1]+otklonenie))]
+                elif (vector_move[0]==-1 and vector_move[1]==1): #отклонение влево при движение [-1,1]
+                    move = [int((robot_cor[0] + vector_move[0])), int((robot_cor[1] + vector_move[1] - otklonenie))]
+                elif (vector_move[0]==-1 and vector_move[1]==-1): #отклонение влево при движение [-1,-1]
+                    move = [int((robot_cor[0] + vector_move[0]+otklonenie)), int((robot_cor[1] + vector_move[1]))]
+                elif (vector_move[0]==1 and vector_move[1]==0): #отклонение влево при движение [1,0]
+                    move = [int((robot_cor[0] + vector_move[0])), int((robot_cor[1] + vector_move[1]+otklonenie))]
+                elif (vector_move[0]==-1 and vector_move[1]==0): #отклонение влево при движение [-1,0]
+                    move = [int((robot_cor[0] + vector_move[0])), int((robot_cor[1] + vector_move[1]-otklonenie))]
+                elif (vector_move[0]==0 and vector_move[1]==1): #отклонение влево при движение [0,1]
+                    move = [int((robot_cor[0] + vector_move[0]-otklonenie)), int((robot_cor[1] + vector_move[1]))]
+                elif (vector_move[0]==0 and vector_move[1]==-1): #отклонение влево при движение [0,-1]
+                    move = [int((robot_cor[0] + vector_move[0]+otklonenie)), int((robot_cor[1] + vector_move[1]+otklonenie))]
+            elif (otklonenie_chance==10):
+                print("попал камушек под колесо. Отклонение вправо")
+                otklonenie = 1
+                if (vector_move[0] == 1 and vector_move[1] == 1):  # отклонение вправо при движение [1,1]
+                    move = [int((robot_cor[0] + vector_move[0])), int((robot_cor[1] + vector_move[1]-otklonenie))]
+                elif (vector_move[0] == 1 and vector_move[1] == -1):  # отклонение вправо при движение [1,-1]
+                    move = [int((robot_cor[0] + vector_move[0]-otklonenie)), int((robot_cor[1] + vector_move[1]))]
+                elif (vector_move[0] == -1 and vector_move[1] == 1):  # отклонение вправо при движение [-1,1]
+                    move = [int((robot_cor[0] + vector_move[0]+otklonenie)), int((robot_cor[1] + vector_move[1]))]
+                elif (vector_move[0] == -1 and vector_move[1] == -1):  # отклонение вправо при движение [-1,-1]
+                    move = [int((robot_cor[0] + vector_move[0])), int((robot_cor[1] + vector_move[1]+otklonenie))]
+                elif (vector_move[0] == 1 and vector_move[1] == 0):  # отклонение вправо при движение [1,0]
+                    move = [int((robot_cor[0] + vector_move[0])), int((robot_cor[1] + vector_move[1] - otklonenie))]
+                elif (vector_move[0] == -1 and vector_move[1] == 0):  # отклонение вправо при движение [-1,0]
+                    move = [int((robot_cor[0] + vector_move[0])), int((robot_cor[1] + vector_move[1] + otklonenie))]
+                elif (vector_move[0] == 0 and vector_move[1] == 1):  # отклонение вправо при движение [0,1]
+                    move = [int((robot_cor[0] + vector_move[0] + otklonenie)), int((robot_cor[1] + vector_move[1]))]
+                elif (vector_move[0] == 0 and vector_move[1] == -1):  # отклонение вправо при движение [0,-1]
+                    move = [int((robot_cor[0] + vector_move[0] - otklonenie)),int((robot_cor[1] + vector_move[1]))]
             mask[robot_cor[0]][robot_cor[1]]=0
             mask[move[0]][move[1]]=1
             robot_cor=[move[0],move[1]]
