@@ -5,6 +5,7 @@ matrix_len=10-1
 robot_cor=[0,0]
 exit_cor=[0,0]
 target_list=[]
+mask = []
 
 def airlocks_definition (airlocks_count,mask):
     #Todone:функция для генерации воздушных шлюзов на карте
@@ -61,6 +62,59 @@ def airlocks_definition (airlocks_count,mask):
                 mask[matrix_len][y]=4
                 exit_cor = [matrix_len,y]
 
+def say_object(x,y):
+    global mask
+    global matrix_len
+    # 1 - робот.
+    # 2 - стена.
+    # 3 - объекты     за     которыми     едет     робот
+    # 4 - зона     эвакуцию
+    result = ""
+    if x > matrix_len-1 or x < 0:
+        result = "край вселенной"
+    elif y > matrix_len-1 or y < 0:
+        result = "край вселенной"
+    elif mask[x,y] == 0:
+        result = "Пусто"
+    elif mask[x,y] == 2:
+        result = "Стена"
+    elif mask[x,y] == 3:
+        result = "Добыча"
+    elif mask[x,y] == 4:
+        result = "Выход"
+    else:
+        result = "НЛО!!"
+
+    return result
+def what_i_see(coords):
+    global matrix_len
+    global mask
+    # print(coords) # [0, 9] x,y
+    for x in range(-1,2):
+        for y in range(-1,2):
+            # по сторонам света
+            # С-З | C   | C-В
+            # З   |робот| В
+            # Ю-З | Ю   | Ю-В
+            if x==0 and y==0: print("это я тут в центре стою")
+            if x==-1 and y==-1:
+                print("Ю-З вижу:",say_object(x,y))
+            if x==0 and y==-1:
+                print("Ю вижу:",say_object(x,y))
+            if x==1 and y==-1:
+                print("Ю-В вижу:",say_object(x,y))
+            if x==-1 and y==0:
+                print("З вижу:",say_object(x,y))
+            if x==1 and y==0:
+                print("В вижу:",say_object(x,y))
+            if x==-1 and y==1:
+                print("С-З вижу:",say_object(x,y))
+            if x==0 and y==1:
+                print("С вижу:",say_object(x,y))
+            if x==1 and y==1:
+                print("С-В вижу:",say_object(x,y))
+
+    return
 def goal_definition (goal_count,mask):
     global matrix_len
     global target_list
@@ -90,6 +144,7 @@ def robot_move (mask):
     for goal_cor in target_list:
         while (robot_cor!=goal_cor):
 #код для одного перемещения робота из сектора в сектор
+            what_i_see(robot_cor)
             vector_move=[goal_cor[0]-robot_cor[0],goal_cor[1]-robot_cor[1]]
             if (vector_move[0]!=0):
                 vector_move[0]=vector_move[0]/(abs(vector_move[0]))
@@ -101,7 +156,7 @@ def robot_move (mask):
                 move=[int((robot_cor[0]+vector_move[0])),int((robot_cor[1]+vector_move[1]))]
             elif (otklonenie_chance==9): #отклонение по x координте
                 otklonenie = -1
-                if ()
+                # if ()
                 if (vector_move[0]+otklonenie>1 or vector_move[0]+otklonenie<-1):
                     otklonenie=-1
                 move = [int((robot_cor[0] + vector_move[0]+otklonenie)), int((robot_cor[1] + vector_move[1]))]
@@ -119,13 +174,14 @@ def robot_move (mask):
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 #создание карты корабля
 if __name__ == '__main__':
-    mask = np.zeros((10,10))
+
+    mask = np.zeros((matrix_len, matrix_len))
     # for i in range (25):
     #     x= random.randint(0,9)
     #     y= random.randint(0,9)
     #     mask[x][y]=2
-    airlocks_definition(2,mask)
-    goal_definition(2,mask)
+    airlocks_definition(2, mask)
+    goal_definition(2, mask)
     #wall_generation(20,mask)
     print(mask)
     robot_move(mask)
