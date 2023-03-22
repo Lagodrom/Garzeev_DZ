@@ -171,17 +171,40 @@ def robot_move (mask):
             print(mask)
         #print(mask)
 
+def no_wall_nearby(x,y,mask):
+    global matrix_len
+    result = True
+    for dx in [-1,0,1]:
+        for dy in [-1,0,1]:
+            if (x+dx)>=0 and (x+dx)<=matrix_len:
+                if (y+dy)>=0 and (y+dy)<=matrix_len:
+                    if mask[x+dx,y+dy] >0:
+                        result = False
+                        print("wall conflict ",x,y,"vs",x+dx,y+dy)
+                else:
+                    result = False
+            else:
+                result = False
+    if result: print ("no conflict:",x,y)
+    return result
+
+def wall_placement():
+    global matrix_len
+    for i in range (int((matrix_len ** 2)/3)):
+        x= random.randint(0,matrix_len)
+        y= random.randint(0,matrix_len)
+        if no_wall_nearby(x,y,mask):
+            mask[x][y]=2
+    return
+
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 #создание карты корабля
 if __name__ == '__main__':
 
-    mask = np.zeros((matrix_len, matrix_len))
-    # for i in range (25):
-    #     x= random.randint(0,9)
-    #     y= random.randint(0,9)
-    #     mask[x][y]=2
+    mask = np.zeros((matrix_len+1, matrix_len+1))
     airlocks_definition(2, mask)
     goal_definition(2, mask)
+    wall_placement()
     #wall_generation(20,mask)
     print(mask)
     robot_move(mask)
