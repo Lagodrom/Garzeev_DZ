@@ -112,7 +112,7 @@ def robot_move (mask):
         mask[move[0]][move[1]]=1
         robot_cor=[move[0],move[1]]
     print(mask)
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 #создание карты корабля
 if __name__ == '__main__':
     mask = np.zeros((10,10))
