@@ -5,6 +5,7 @@ matrix_len=10-1
 robot_cor=[0,0]
 exit_cor=[0,0]
 target_list=[]
+
 def airlocks_definition (airlocks_count,mask):
     #Todone:функция для генерации воздушных шлюзов на карте
     """
@@ -71,18 +72,46 @@ def goal_definition (goal_count,mask):
                 y = random.randint(0, matrix_len)
             mask[x][y]=3
             target_list.append([x,y])
+
 def robot_move (mask):
     global robot_cor
     global target_list
+    global exit_cor
     for goal_cor in target_list:
-#        while robot_cor!=goal_cor:
+        while (robot_cor!=goal_cor):
 #код для одного перемещения робота из сектора в сектор
-        vector_move=[goal_cor[0]-robot_cor[0],goal_cor[1]-robot_cor[1]]
-        vector_move=[vector_move[0]/(abs(vector_move[0])),vector_move[1]/(abs(vector_move[1]))]
-        move=[int((robot_cor[0]+vector_move[0])),int((robot_cor[1]+vector_move[1]))]
-        mask[robot_cor]=0
-        mask[move[0]][move[1]]=1
+            vector_move=[goal_cor[0]-robot_cor[0],goal_cor[1]-robot_cor[1]]
+            if (vector_move[0]!=0):
+                vector_move[0]=vector_move[0]/(abs(vector_move[0]))
+            else:
+                pass
+            if (vector_move[1]!=0):
+                vector_move[1] = vector_move[1] / (abs(vector_move[1]))
+            else:
+                pass
+            move=[int((robot_cor[0]+vector_move[0])),int((robot_cor[1]+vector_move[1]))]            # vector_move=[vector_move[0]//(abs(vector_move[0])),vector_move[1]//(abs(vector_move[1]))]
+                        # move=[int((robot_cor[0]+vector_move[0])),int((robot_cor[1]+vector_move[1]))]
+            mask[robot_cor[0]][robot_cor[1]]=0
+            mask[move[0]][move[1]]=1
+            robot_cor=[move[0],move[1]]
         print(mask)
+    while (robot_cor!=exit_cor):
+#код для одного перемещения робота из сектора в сектор
+        vector_move=[exit_cor[0]-robot_cor[0],exit_cor[1]-robot_cor[1]]
+        if (vector_move[0]!=0):
+            vector_move[0]=vector_move[0]/(abs(vector_move[0]))
+        else:
+            pass
+        if (vector_move[1]!=0):
+            vector_move[1] = vector_move[1] / (abs(vector_move[1]))
+        else:
+            pass
+        move=[int((robot_cor[0]+vector_move[0])),int((robot_cor[1]+vector_move[1]))]            # vector_move=[vector_move[0]//(abs(vector_move[0])),vector_move[1]//(abs(vector_move[1]))]
+                    # move=[int((robot_cor[0]+vector_move[0])),int((robot_cor[1]+vector_move[1]))]
+        mask[robot_cor[0]][robot_cor[1]]=0
+        mask[move[0]][move[1]]=1
+        robot_cor=[move[0],move[1]]
+    print(mask)
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 #создание карты корабля
 if __name__ == '__main__':
@@ -92,6 +121,5 @@ if __name__ == '__main__':
     #     y= random.randint(0,9)
     #     mask[x][y]=2
     airlocks_definition(2,mask)
-    goal_definition(1,mask)
-    print(mask)
+    goal_definition(2,mask)
     robot_move(mask)
