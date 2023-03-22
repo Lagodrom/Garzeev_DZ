@@ -7,7 +7,7 @@ matrix_len=10-1
 robot_cor=[0,0]
 exit_cor=[0,0]
 target_list=[]
-
+mask=[]
 def airlocks_definition (airlocks_count,map):
     #Todone:функция для генерации воздушных шлюзов на карте
     """
@@ -229,17 +229,43 @@ def robot_move (map):
             print(map)
         #print(map)
     what_i_see(robot_cor, map)
+def no_wall_nearby(x,y,map):
+    global matrix_len
+    result = True
+    for dx in [-1,0,1]:
+        for dy in [-1,0,1]:
+            if (x+dx)>=0 and (x+dx)<=matrix_len:
+                if (y+dy)>=0 and (y+dy)<=matrix_len:
+                    if map[x+dx,y+dy] >0:
+                        result = False
+                        print("wall conflict ",x,y,"vs",x+dx,y+dy)
+                else:
+                    result = False
+            else:
+                result = False
+    if result: print ("no conflict:",x,y)
+    return result
 
+def wall_placement():
+    global matrix_len
+    for i in range (int((matrix_len ** 2)/3)):
+        x= random.randint(0,matrix_len)
+        y= random.randint(0,matrix_len)
+        if no_wall_nearby(x,y,map):
+            map[x][y]=2
+    return
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 #создание карты корабля
 if __name__ == '__main__':
     map = np.zeros((10,10))
+
     # for i in range (25):
     #     x= random.randint(0,9)
     #     y= random.randint(0,9)
     #     map[x][y]=2
     airlocks_definition(2,map)
     goal_definition(2,map)
+    wall_placement()
     #wall_generation(20,map)
     mask=map
     print(map)
