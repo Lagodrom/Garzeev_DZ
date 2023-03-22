@@ -72,46 +72,50 @@ def goal_definition (goal_count,mask):
                 y = random.randint(0, matrix_len)
             mask[x][y]=3
             target_list.append([x,y])
-
+def wall_generation (wall_count,mask):
+    global matrix_len
+    for i in range(wall_count):
+        x = random.randint(0, matrix_len)
+        y = random.randint(0, matrix_len)
+        while (mask[x][y] != 0):
+            x = random.randint(0, matrix_len)
+            y = random.randint(0, matrix_len)
+        mask[x][y] = 2
 def robot_move (mask):
     global robot_cor
     global target_list
     global exit_cor
+    target_list.append(exit_cor)
+    move=[]
     for goal_cor in target_list:
         while (robot_cor!=goal_cor):
 #код для одного перемещения робота из сектора в сектор
             vector_move=[goal_cor[0]-robot_cor[0],goal_cor[1]-robot_cor[1]]
             if (vector_move[0]!=0):
                 vector_move[0]=vector_move[0]/(abs(vector_move[0]))
-            else:
-                pass
             if (vector_move[1]!=0):
                 vector_move[1] = vector_move[1] / (abs(vector_move[1]))
-            else:
-                pass
-            move=[int((robot_cor[0]+vector_move[0])),int((robot_cor[1]+vector_move[1]))]            # vector_move=[vector_move[0]//(abs(vector_move[0])),vector_move[1]//(abs(vector_move[1]))]
-                        # move=[int((robot_cor[0]+vector_move[0])),int((robot_cor[1]+vector_move[1]))]
+            #вероятность отклонения движения у робота
+            otklonenie_chance= random.randint(1,10)
+            if (otklonenie_chance!=9 and otklonenie_chance!=10):
+                move=[int((robot_cor[0]+vector_move[0])),int((robot_cor[1]+vector_move[1]))]
+            elif (otklonenie_chance==9): #отклонение по x координте
+                otklonenie = -1
+                if ()
+                if (vector_move[0]+otklonenie>1 or vector_move[0]+otklonenie<-1):
+                    otklonenie=-1
+                move = [int((robot_cor[0] + vector_move[0]+otklonenie)), int((robot_cor[1] + vector_move[1]))]
+            elif (otklonenie_chance==10):
+                otklonenie = 1
+                if (vector_move[0]+otklonenie>1 or vector_move[0]+otklonenie<-1):
+                    otklonenie= -1
+                move = [int((robot_cor[0] + vector_move[0]+ otklonenie)), int((robot_cor[1] + vector_move[1]))]
             mask[robot_cor[0]][robot_cor[1]]=0
             mask[move[0]][move[1]]=1
             robot_cor=[move[0],move[1]]
-        print(mask)
-    while (robot_cor!=exit_cor):
-#код для одного перемещения робота из сектора в сектор
-        vector_move=[exit_cor[0]-robot_cor[0],exit_cor[1]-robot_cor[1]]
-        if (vector_move[0]!=0):
-            vector_move[0]=vector_move[0]/(abs(vector_move[0]))
-        else:
-            pass
-        if (vector_move[1]!=0):
-            vector_move[1] = vector_move[1] / (abs(vector_move[1]))
-        else:
-            pass
-        move=[int((robot_cor[0]+vector_move[0])),int((robot_cor[1]+vector_move[1]))]            # vector_move=[vector_move[0]//(abs(vector_move[0])),vector_move[1]//(abs(vector_move[1]))]
-                    # move=[int((robot_cor[0]+vector_move[0])),int((robot_cor[1]+vector_move[1]))]
-        mask[robot_cor[0]][robot_cor[1]]=0
-        mask[move[0]][move[1]]=1
-        robot_cor=[move[0],move[1]]
-    print(mask)
+            print(mask)
+        #print(mask)
+
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 #создание карты корабля
 if __name__ == '__main__':
@@ -122,4 +126,6 @@ if __name__ == '__main__':
     #     mask[x][y]=2
     airlocks_definition(2,mask)
     goal_definition(2,mask)
+    #wall_generation(20,mask)
+    print(mask)
     robot_move(mask)
