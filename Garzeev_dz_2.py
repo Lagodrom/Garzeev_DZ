@@ -89,7 +89,7 @@ def say_object(x,y):
 def what_i_see(coords):
     global matrix_len
     global mask
-    # print(coords) # [0, 9] x,y
+    # print(coords) # [0, 9] y,x
     for x in range(-1,2):
         for y in range(-1,2):
             # по сторонам света
@@ -98,21 +98,21 @@ def what_i_see(coords):
             # Ю-З | Ю   | Ю-В
             if x==0 and y==0: print("это я тут в центре стою")
             if x==-1 and y==-1:
-                print("Ю-З вижу:",say_object(x,y))
+                print("Ю-З вижу:",say_object(coords[1]+x,coords[0]+y))
             if x==0 and y==-1:
-                print("Ю вижу:",say_object(x,y))
+                print("Ю вижу:",say_object(coords[1]+x,coords[0]+y))
             if x==1 and y==-1:
-                print("Ю-В вижу:",say_object(x,y))
+                print("Ю-В вижу:",say_object(coords[1]+x,coords[0]+y))
             if x==-1 and y==0:
-                print("З вижу:",say_object(x,y))
+                print("З вижу:",say_object(coords[1]+x,coords[0]+y))
             if x==1 and y==0:
-                print("В вижу:",say_object(x,y))
+                print("В вижу:",say_object(coords[1]+x,coords[0]+y))
             if x==-1 and y==1:
-                print("С-З вижу:",say_object(x,y))
+                print("С-З вижу:",say_object(coords[1]+x,coords[0]+y))
             if x==0 and y==1:
-                print("С вижу:",say_object(x,y))
+                print("С вижу:",say_object(coords[1]+x,coords[0]+y))
             if x==1 and y==1:
-                print("С-В вижу:",say_object(x,y))
+                print("С-В вижу:",say_object(coords[1]+x,coords[0]+y))
 
     return
 def goal_definition (goal_count,mask):
