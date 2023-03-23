@@ -271,3 +271,60 @@ if __name__ == '__main__':
     print(map)
     robot_move(map)
     print(mask)
+
+    
+    pygame.init()
+screen = pygame.display.set_mode((800, 800))
+high = 20
+wight = 20
+margin = 20
+right = 0
+down = 0
+
+# 0 - Пустое поле
+# 1 - я
+# 2 - стены
+# 3 - цель
+# 4 - выход
+running = True
+print(robot_cor)
+while running:
+
+    pygame.display.update()
+
+    for i in range(0, 10):
+        for j in range(0, 10):
+            if map[i][j] == 0:
+                pygame.draw.rect(screen, (255, 255, 255), ((wight + margin) * i, (high + margin) * j, high, wight))
+            elif map[i][j] == 1:
+                pygame.draw.rect(screen, (0, 255, 0), ((wight + margin) * i, (high + margin) * j, high, wight))
+            elif map[i][j] == 2:
+                pygame.draw.rect(screen, (255, 0, 0), ((wight + margin) * i, (high + margin) * j, high, wight))
+            elif map[i][j] == 3:
+                pygame.draw.rect(screen, (0, 0, 255), ((wight + margin) * i, (high + margin) * j, high, wight))
+            else:
+                pygame.draw.rect(screen, (0, 255, 255), ((wight + margin) * i, (high + margin) * j, high, wight))
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+            pygame.quit()
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_d:
+                map[robot_cor[0], robot_cor[1]] = 0
+                robot_cor = [robot_cor[0]+1, robot_cor[1]]
+                map[robot_cor[0], robot_cor[1]] = 1
+            elif event.key == pygame.K_a:
+                map[robot_cor[0], robot_cor[1]] = 0
+                robot_cor = [robot_cor[0] - 1, robot_cor[1]]
+                map[robot_cor[0], robot_cor[1]] = 1
+            elif event.key == pygame.K_s:
+                map[robot_cor[0], robot_cor[1]] = 0
+                robot_cor = [robot_cor[0], robot_cor[1] + 1]
+                map[robot_cor[0], robot_cor[1]] = 1
+            elif event.key == pygame.K_w:
+                map[robot_cor[0], robot_cor[1]] = 0
+                robot_cor = [robot_cor[0], robot_cor[1] - 1]
+                map[robot_cor[0], robot_cor[1]] = 1
+            elif event.key == pygame.K_SPACE:
+                robot_move(map)
